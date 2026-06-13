@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom"
 
-import { navItems } from "@/data/cheatsheets"
+import { navItems, navSections } from "@/data/cheatsheets"
 import { cn } from "@/lib/utils"
+
+const homeItem = navItems.find((item) => item.path === "/")!
 
 export function AppSidebar() {
   return (
@@ -18,23 +20,46 @@ export function AppSidebar() {
         </div>
       </div>
       <nav className="flex flex-1 flex-col gap-1 p-3">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            end={item.path === "/"}
-            className={({ isActive }) =>
-              cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              )
-            }
-          >
-            <item.icon className="size-4 shrink-0" />
-            <span>{item.title}</span>
-          </NavLink>
+        <NavLink
+          key={homeItem.path}
+          to={homeItem.path}
+          end
+          className={({ isActive }) =>
+            cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              isActive
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            )
+          }
+        >
+          <homeItem.icon className="size-4 shrink-0" />
+          <span>{homeItem.title}</span>
+        </NavLink>
+
+        {navSections.map((section) => (
+          <div key={section.title} className="mt-2 flex flex-col gap-1">
+            <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+              {section.title}
+            </p>
+            {section.items.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  )
+                }
+              >
+                <item.icon className="size-4 shrink-0" />
+                <span>{item.title}</span>
+              </NavLink>
+            ))}
+          </div>
         ))}
       </nav>
     </aside>

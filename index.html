@@ -9,6 +9,17 @@
       content="AI Guide — Material de estudo com cheatsheets sobre programação com IA, Git e GitHub para estudantes."
     />
     <title>AI Guide — Cheatsheets para Estudantes</title>
+    <script>
+      (function () {
+        var theme = localStorage.getItem("ai-guide-theme");
+        if (!theme) {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,8 +1,12 @@
 import {
   BookOpen,
-  Cloud,
+  BookOpenText,
+  BrainCircuit,
+  Bug,
+  Compass,
   FolderGit2,
   GitBranch,
+  Lightbulb,
   Monitor,
   Terminal,
   type LucideIcon,
@@ -65,21 +69,27 @@ export const navItems: CheatsheetLink[] = [
   },
   {
     title: "IDEs com IA",
-    description: "Cursor, Antigravity e Trae",
+    description: "Editores com IA integrada",
     path: "/ides",
     icon: Monitor,
   },
   {
     title: "Modelos Open Source",
-    description: "Ollama e OpenRouter",
+    description: "Modelos locais e gateways",
     path: "/modelos",
-    icon: Cloud,
+    icon: Compass,
   },
   {
     title: "CLIs Open Source",
-    description: "OpenCode e OpenClaude",
+    description: "Agentes no terminal",
     path: "/clis",
     icon: Terminal,
+  },
+  {
+    title: "Guia GitHub",
+    description: "Repositórios e colaboração",
+    path: "/github",
+    icon: BookOpenText,
   },
   {
     title: "Comandos Git",
@@ -88,10 +98,48 @@ export const navItems: CheatsheetLink[] = [
     icon: GitBranch,
   },
   {
-    title: "Guia GitHub",
-    description: "Manter repositórios no GitHub",
-    path: "/github",
+    title: "Prompting",
+    description: "Peça melhor para a IA",
+    path: "/prompting",
+    icon: BrainCircuit,
+  },
+  {
+    title: "Debug",
+    description: "Resolva erros com método",
+    path: "/debug",
+    icon: Bug,
+  },
+  {
+    title: "Testes",
+    description: "Confira se funciona",
+    path: "/testes",
+    icon: Lightbulb,
+  },
+  {
+    title: "Projetos",
+    description: "Planeje e entregue melhor",
+    path: "/projetos",
     icon: FolderGit2,
+  },
+]
+
+export interface NavSection {
+  title: string
+  items: CheatsheetLink[]
+}
+
+export const navSections: NavSection[] = [
+  {
+    title: "Ferramentas",
+    items: navItems.filter((item) =>
+      ["/ides", "/modelos", "/clis", "/github", "/git"].includes(item.path)
+    ),
+  },
+  {
+    title: "Guias de Estudo",
+    items: navItems.filter((item) =>
+      ["/prompting", "/debug", "/testes", "/projetos"].includes(item.path)
+    ),
   },
 ]
 
@@ -101,37 +149,65 @@ export const learningPath = [
   {
     step: 1,
     title: "Escolher uma IDE com IA",
-    description: "Comece com Cursor, Antigravity ou Trae para codar com assistente integrado.",
+    description: "Selecione um editor com IA integrada para começar a programar.",
     path: "/ides",
     icon: Monitor,
   },
   {
     step: 2,
     title: "Configurar um modelo",
-    description: "Use Ollama localmente ou OpenRouter para acessar modelos na nuvem.",
+    description: "Escolha entre modelo local (Ollama) ou gateways na nuvem (OpenRouter).",
     path: "/modelos",
-    icon: Cloud,
+    icon: Compass,
   },
   {
     step: 3,
-    title: "Experimentar CLIs no terminal",
-    description: "OpenCode e OpenClaude permitem fluxos agenticos fora do editor.",
+    title: "Explorar CLIs no terminal",
+    description: "Use agentes de codificação como OpenCode e OpenClaude no terminal.",
     path: "/clis",
     icon: Terminal,
   },
   {
     step: 4,
+    title: "Pedir melhor para a IA",
+    description: "Aprenda a transformar uma ideia solta em um pedido claro para a IA.",
+    path: "/prompting",
+    icon: BrainCircuit,
+  },
+  {
+    step: 5,
+    title: "Resolver erros com calma",
+    description: "Use um roteiro simples para entender mensagens de erro e pedir ajuda.",
+    path: "/debug",
+    icon: Bug,
+  },
+  {
+    step: 6,
+    title: "Testar antes de confiar",
+    description: "Verifique se o resultado da IA realmente funciona no seu projeto.",
+    path: "/testes",
+    icon: Lightbulb,
+  },
+  {
+    step: 7,
+    title: "Planejar projetos pequenos",
+    description: "Divida ideias em partes simples e entregue uma versão funcional.",
+    path: "/projetos",
+    icon: FolderGit2,
+  },
+  {
+    step: 8,
     title: "Versionar com Git",
-    description: "Aprenda os comandos essenciais para salvar e organizar seu código.",
+    description: "Registre a evolução do código e volte atrás com segurança.",
     path: "/git",
     icon: GitBranch,
   },
   {
-    step: 5,
+    step: 9,
     title: "Publicar no GitHub",
-    description: "Mantenha um repositório limpo, com README e boas práticas.",
+    description: "Crie repositórios, colabore e monte seu portfólio de projetos.",
     path: "/github",
-    icon: FolderGit2,
+    icon: BookOpenText,
   },
 ]
 
@@ -608,6 +684,236 @@ export const githubGuide: GuideStep[] = [
       "Branches antigas foram removidas?",
       "O projeto ainda builda sem erros?",
     ],
+  },
+]
+
+// --- Prompting (Guia 1) ---
+
+export interface PromptExample {
+  scenario: string
+  bad: string
+  good: string
+  why: string
+}
+
+export const promptExamples: PromptExample[] = [
+  {
+    scenario: "Criar um formulário",
+    bad: "Faz uma tela de login",
+    good:
+      "Cria um formulário de login em React com TypeScript. Deve ter campos de email e senha, validação se os campos não estão vazios e um botão de submit que chama uma função onLogin(email, senha).",
+    why: "O prompt bom diz onde (React + TypeScript), o que (formulário com validação) e como (função de callback).",
+  },
+  {
+    scenario: "Pedir ajuda com erro",
+    bad: "Meu código não funciona",
+    good:
+      "Estou recebendo 'TypeError: Cannot read properties of undefined' na linha 15 de App.tsx quando clico no botão de submit. O código é: [código]. O que pode estar causando isso?",
+    why: "O prompt bom informa o erro exato, a localização e o código relevante. A IA consegue investigar de verdade.",
+  },
+  {
+    scenario: "Pedir explicação",
+    bad: "O que isso faz?",
+    good:
+      "Explique esta função linha por linha: o que cada parte faz, o que a função recebe e o que ela devolve. Código: [código]",
+    why: "O prompt bom pede uma explicação estruturada. Você entende o fluxo completo, não um resumo vago.",
+  },
+]
+
+export const promptChecklist: string[] = [
+  "Entendi o que cada parte do código faz?",
+  "O código se encaixa no resto do meu projeto?",
+  "Testei com valores diferentes do exemplo?",
+  "Consigo explicar para outra pessoa como funciona?",
+  "Sei quais partes manter e quais adaptar?",
+]
+
+// --- Debug (Guia 4) ---
+
+export const debugSteps: GuideStep[] = [
+  {
+    title: "1. Leia o erro com calma",
+    description:
+      "A mensagem de erro não é sua inimiga. Ela diz exatamente o que deu errado, em qual linha e muitas vezes até sugere a causa. Copie o erro completo, não só a última linha.",
+    tips: [
+      "Preste atenção ao tipo do erro: TypeError, ReferenceError, SyntaxError — cada um tem uma causa diferente",
+      "Veja o número da linha e o arquivo indicado. É por onde você começa",
+    ],
+  },
+  {
+    title: "2. Descreva o erro para a IA",
+    description:
+      "Conte o contexto: o que você esperava que acontecesse, o que aconteceu de fato, em qual arquivo e linha, e quais dados estavam envolvidos.",
+    tips: [
+      "\"Esperava que o botão mudasse de cor ao clicar, mas nada acontece\" é melhor que \"Não funciona\"",
+      "Inclua só o código relevante, não o arquivo inteiro",
+    ],
+  },
+  {
+    title: "3. Isole o problema",
+    description:
+      "Se você comentar uma linha e o erro sumir, você achou o culpado. Teste uma hipótese de cada vez para não se perder.",
+    tips: [
+      "Mude uma coisa por vez e teste novamente",
+      "Pergunte à IA: 'Se eu comentar esta linha e o erro sumir, o que isso significa?'",
+    ],
+  },
+  {
+    title: "4. Use logs como farol",
+    description:
+      "Coloque console.log antes e depois da linha suspeita para ver o valor das variáveis. Compare o que esperava com o que realmente está chegando.",
+    tips: [
+      "Log não é gambiarra — é a ferramenta mais eficiente de diagnóstico",
+      "Exemplo: console.log('valor antes:', variavel) antes da linha que dá erro",
+    ],
+  },
+  {
+    title: "5. Peça diagnóstico, não solução",
+    description:
+      "Em vez de 'Conserta pra mim', pergunte 'O que pode estar causando isso?'. Entender a causa é mais importante que a correção imediata.",
+    tips: [
+      "Quando você entende a causa, aprende a evitar o mesmo erro no futuro",
+      "Depois de entender, você mesmo pode propor a correção com mais confiança",
+    ],
+  },
+]
+
+export const debugChecklist: string[] = [
+  "Copiei a mensagem de erro completa?",
+  "Descrevi o contexto (arquivo, linha, o que estava fazendo)?",
+  "Testei isolar o problema comentando partes do código?",
+  "Coloquei logs estratégicos para ver valores?",
+  "Entendi a causa antes de aplicar a correção?",
+]
+
+// --- Testes (Guia 5) ---
+
+export const testSteps: GuideStep[] = [
+  {
+    title: "1. Por que testar?",
+    description:
+      "Testes não são burocracia — são sua rede de segurança. Um teste bom avisa quando você quebra algo sem querer. Com IA, criar testes fica mais rápido, mas você ainda precisa entender o que cada teste verifica.",
+    tips: [
+      "Testes dão confiança para refatorar sem medo de quebrar",
+      "Um projeto com testes é mais profissional e fácil de manter",
+    ],
+  },
+  {
+    title: "2. Como pedir testes para a IA",
+    description:
+      "Mostre o código para a IA e diga o que ele deveria fazer. Peça casos de teste específicos: valores normais, valores vazios e entradas inesperadas.",
+    tips: [
+      "Inclua o código completo da função ou componente",
+      "Diga: 'Teste se funciona com valores normais, com valores vazios e com entradas erradas'",
+      "Peça também: 'Explique o que cada teste verifica'",
+    ],
+  },
+  {
+    title: "3. Exemplo: testar uma função",
+    description:
+      "Para uma função soma(a, b), peça testes com números positivos, negativos, zero e decimais. Veja se os testes realmente passam quando você executa.",
+    tips: [
+      "Caminho feliz: soma(2, 3) deve retornar 5",
+      "Borda: soma(0, 0) e soma(-1, 1)",
+      "Erro: se a função espera números, o que acontece se passar texto?",
+    ],
+  },
+  {
+    title: "4. Exemplo: testar um componente",
+    description:
+      "Para um componente de botão que conta cliques, os testes verificam se ele renderiza e se o contador incrementa ao clicar.",
+    tips: [
+      "Teste de renderização: o botão aparece na tela?",
+      "Teste de interação: clicar aumenta o contador?",
+      "Peça à IA: 'Crie testes para este componente React' e revise o que ela gerou",
+    ],
+  },
+]
+
+export const testChecklist: string[] = [
+  "Testei o caminho feliz (funciona como esperado)?",
+  "Testei bordas (valores vazios, extremos, negativos)?",
+  "Testei erros (comportamento quando algo dá errado)?",
+  "Entendo o que cada teste verifica?",
+  "Os testes realmente passam quando executo?",
+]
+
+// --- Projetos (Guia 7) ---
+
+export interface ProjectIdea {
+  name: string
+  description: string
+  difficulty: string
+}
+
+export const projectSteps: GuideStep[] = [
+  {
+    title: "1. Da ideia ao plano",
+    description:
+      "Toda ideia vira um plano quando você lista as funcionalidades mínimas. Pergunte à IA: 'Quais são as funcionalidades essenciais para um app que faz X?'.",
+    tips: [
+      "Comece com o mínimo que funciona — depois você incrementa",
+      "Uma landing page precisa só de: header, seção principal, rodapé",
+      "Um app de tarefas precisa: listar, adicionar e remover tarefas",
+    ],
+  },
+  {
+    title: "2. Quebre em tarefas pequenas",
+    description:
+      "Uma tarefa pequena é algo que você termina em uma sentada (30 min a 2 horas). Cada pedaço vira um prompt específico e fica mais fácil de testar.",
+    tips: [
+      "\"Criar tela de login\" se divide em: formulário → validação → chamada API → feedback de erro",
+      "Tarefa pequena = prompt direto para a IA",
+    ],
+  },
+  {
+    title: "3. Use a IA em cada etapa",
+    description:
+      "A IA ajuda em todas as fases: planejamento, implementação e revisão. Use como assistente, não como substituta.",
+    tips: [
+      "Planejar: 'Quais arquivos preciso criar para este projeto?'",
+      "Implementar: 'Crie um componente de formulário com validação'",
+      "Revisar: 'Este código segue boas práticas? O que melhorar?'",
+      "Testar: 'Que testes devo escrever para esta função?'",
+    ],
+  },
+  {
+    title: "4. Entregue versões funcionais",
+    description:
+      "Não tente fazer tudo de uma vez. Primeiro faça algo que funciona — mesmo que simples. Depois melhore. Um projeto entregue é melhor que um projeto perfeito pela metade.",
+    tips: [
+      "Versão 1: funciona (mesmo que a apresentação não seja ideal)",
+      "Versão 2: funciona bem e está organizado",
+      "Versão 3: funciona, organizado e com boa aparência",
+    ],
+  },
+]
+
+export const projectIdeas: ProjectIdea[] = [
+  {
+    name: "Calculadora com histórico",
+    description: "Operações básicas e um painel mostrando contas anteriores.",
+    difficulty: "Iniciante",
+  },
+  {
+    name: "Landing page pessoal",
+    description: "Página com apresentação, projetos e contato. Ótimo para portfólio.",
+    difficulty: "Iniciante",
+  },
+  {
+    name: "App de tarefas (To-Do)",
+    description: "Adicionar, concluir e remover tarefas. Pode salvar no navegador.",
+    difficulty: "Iniciante",
+  },
+  {
+    name: "Dashboard com dados estáticos",
+    description: "Cards e gráficos com dados fixos para praticar layout.",
+    difficulty: "Intermediário",
+  },
+  {
+    name: "Conversor de moedas",
+    description: "Converte valores entre moedas usando uma API pública.",
+    difficulty: "Intermediário",
   },
 ]
 
